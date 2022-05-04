@@ -147,7 +147,7 @@ $ \bullet \text{ Ribeye: } 360  $
 $ \bullet \text{ Tenderloin: } 588  $
 \\
 
-This gives the following for the state and action spaces $S$ and $A$, respectively,
+This gives the following for the state and action spaces $S$ and $A_s$, respectively,
 
 $$\begin{cases}
 S = \{0, 1, ..., s_{max} \} \\
@@ -167,11 +167,81 @@ r_{t}(s,a,j) = \begin{cases} S_{p} *(s + a - j) * F(s + a - j) - a*Pr(t) & j \in
 p_{t}(s,a,j) = \begin{cases} 0 & j > s + a \\ F(s + a - j) & 0 < j \leq s + a \\ 1 - \text{CDF}(s + a) & j = 0 \end{cases}
 \end{equation}
 
+\newpage
 \section{Results}
+
+\subsection{Total Expected Rewards}
+
+Upon running the code presented in Appendix A (see the GitHub link included for a quicker implementation than sequential programming, as runtimes were multiple hours in testing), Table 1 gives maximum total expected rewards, computed in epoch $t = 0$ as the MDP process begins with boundary conditions and works backwards, and the state in which these maximum rewards were attained. The purpose of including these figures is to indicate the best starting inventories.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+        ~ & Strip Loin & Ribeye & Cowboy & Tenderloin \\ \hline
+        $\text{max}_{s \in S} \{ r_{0} (s) \}$ & 105,049.35 & 110,219.15 & 33366.79 & 279,138.14 \\ \hline
+        $\text{arg max}_{s \in S} \{ r_{0}(s) \} $ & 168 & 360 & 171 & 588 \\ \hline
+    \end{tabular}
+\end{table}
+\small 
+\begin{center}
+\textit{Table 1:} Maximum Total Expected Rewards for each MDP process with the accompanying states (inventories) in which these were attained.
+\end{center}
+\normalsize 
+
+Not surprisingly, the tenderloin ascertains the highest maximum total expected reward across all steak types, with the ribeye, strip loin, and cowboy steaks ranked behind in decreasing order. A notable observation is that this ranking follows the profits per pound for each steak type, as well as this maximum reward unsurprisingly occurring when inventory is maximized.
+
+However, there is a caveat to the aforementioned rewards indicated by the optimal policies; in every case except that of the strip loin, the optimal policy calculated by the MDP never decides to order such that capacity is reached. Therefore, the ``maximum-attainable total expected reward," denoted by $max_{s \in S*} (r_{0}(s))$, where $S*$ is the subset of attainable states, is derived by using the maximum expected total reward for the highest state (i.e. inventory) attainable for a particular MDP. The findings in this context are presented in Table 2.
+
+\begin{table}[!ht]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|}
+    \hline
+        ~ & Strip Loin & Ribeye & Cowboy & Tenderloin \\ \hline
+        $\text{max}_{s \in S*} \{ r_{0} (s) \}$ & 105,049.35 & 109,109.90 & 32,927.01 & 276,843.92 \\ \hline
+        $\text{arg max}_{s \in S*} \{ r_{0}(s) \} $ & 168 & 277 & 134 & 442 \\ \hline
+    \end{tabular}
+\end{table}
+\small 
+\begin{center}
+\textit{Table 2:} Maximum-Attainable Total Expected Rewards for each MDP process with the accompanying states (inventories) in which these were attained.
+\end{center}
+\normalsize
+
+It is worth noting that while the tenderloin has the highest maximum reward (and maximum-attainable reward), it has the highest return for purchase price. At a \textit{sale-to-purchase ratio} of 5.007, it slightly exceeds that of the strip loin at 4.91 (though this may indicate why the inventory for the strip is consistently filled -- see Section 4.2 for more detail). As the tenderloin essentially becomes Stoney River's ``cash cow" (as it \textit{is} a steak), the restaurant unsurprisingly sets aside a large portion of its storage for purchasing tenderloins. 
+\\
+
+In fact, the sale-to-purchase ratio is minimized by the cowboy steak, which unsurpringly has the lowest capacity for storage within the restaurant.
+
+\subsection{Optimal Policies}
+
+Interestingly, optimal policies did not follow conventional logic, namely to simply fill inventory completely in every decision epoch. Whether this was a direct consequence of inflation or potentially waning demand for particular steak types, the results dictated a varying decision process for each steak, with exception of the strip loin. Perusal of the optimal policies is fully at the reader's discretion, though decision rules for Week 1 (the first decision epoch, $t = 1$) will be presented here as an indicator of how to effectively read the policies. Additionally, the repository linked in Appendix A will have functionality where readers may choose to more programmatically look at the optimal policies for any given week.
+
+Given the general framework for a decision rule, $d_{t}$, as 
+
+\begin{equation}
+\begin{cases}
+d_{t} = \Sigma_{t} - s & s < \sigma_{t} \\ 0 & \text{otherwise} 
+\end{cases}
+\end{equation}
+
+for the first epoch, at time $t = 1$, the following values for $Sigma_{t}, \sigma_{t}$ are given for each steak type:
+\\
+
+$ \bullet \text{Strip Loin}: \Sigma_{t} = \sigma_{t} = 168$ 
+
+$ \bullet \text{Cowboy}: \Sigma_{t} = \sigma_{t} = 134$
+
+$ \bullet \text{ Ribeye: } \Sigma_{t} = \sigma_{t} = 278  $
+
+$ \bullet \text{ Tenderloin: } \Sigma_{t} = \sigma_{t} = 442  $
+\\
+
+For all other decision epochs (with the exception of Week 32, as the setup dictated no ordering to occur on that week and any salvage costs, which were assumed to be negligible, to be evaluated), the ordering policy varies by week and by steak. The general trend discovered by the ordering policies was that, in the case of the strip loin, Stoney River should continue ordering to-capacity while adhering to more unique policies in all other cases. For the future, however, this could suggest an increase in storage for strip loins, as if the steak is constantly being ordered, having increased amounts on-hand could directly translate to increased profits.
 
 \section{Conclusion}
 
-\newpage
+By implementing the presented policies as advised by Markov Decision Processes, Stoney River Steakhouse will be able to maximize their total expected rewards (i.e. increase profit) while meeting customers' demands and accounting for future inflation. The processes incorporated year-long demand data, fitted to normal distributions and converted into usable, week-long data. Additionally, inflation rates were incorporated in adjusting the purchase prices of each steak. Such preprocessing was then implemented in a Python 3.9 class that housed methods to solve a finite-horizon MDP to optimality and return optimal ordering policies. 
 
 \section{Literature Cited}
 
@@ -191,14 +261,11 @@ https://fred.stlouisfed.org/series/T10YIE.
 
 “Consumer Price Index for All Urban Consumers: All Items in U.S. City Average.” FRED, 12 Apr. 2022, https://fred.stlouisfed.org/series/CPIAUCSL. 
 
-\section{Appendix A: Python Code}
+\section{Appendix A: Python Code and Excel Files}
 
-Stapled to this report will be a printout of the outputs, stored in Microsoft Excel. This appendix contains the relevant Python code, beginning on the following page. An entire repository containing this paper, code, and related output files can be found at the following link: 
-https://github.com/halljc76/
-STOR515FinalProj. 
-\\
-
-\textit{As efforts to implement concurrent programming via the \textbf{threading} package has been unsuccessful, an alternative measure was to open four separate kernels, copy the codebase file three times, and concurrently run each individual MDP in its own kernel. The class calls can be found in the linked repository above. This cuts the runtime in half on a normal laptop, from experimentation.}
+This appendix contains the relevant Python code and Excel outputs, beginning on the following page. The code, paper, and related output files can be found at the following link: 
+https://github.com/
+halljc76/STOR515FinalProj. 
 \\
 \newpage
 
@@ -249,7 +316,7 @@ class WeLoveSteak:
         Parameters:
         t := Epoch in T
         """
-        return self.priceyint * (1 + (0.0125 / (np.sqrt(t) - 0.5)))
+        return self.priceyint * (1 + (0.05 / (np.sqrt(t) - 0.5)))
     def CDF(self, s):
         """Function for discretized probability that uses the normal CDF.
         
@@ -275,7 +342,7 @@ class WeLoveSteak:
           if ((0 < j) and (j <= s + a)) 
           else (1 - self.CDF(s + a)))
     def rt(self, t, s, a = 0):
-        """Reward function for the finite-horizon MDP setup.
+        """Reward function for finite-horizon MDP setup.
         
         Parameters:
         t := Epoch in T
@@ -284,8 +351,18 @@ class WeLoveSteak:
         """
         if t == self.N:
             return 0
+        elif s+a == 0:
+            return 0
+        elif s+a == 1:
+            return (1-self.CDF(1))*self.f(1)
+        er = 0
+        er += (1-self.CDF(s+a))*self.f(s+a)
+        for i in range(s+a-1):
+            er += (self.f(i) * (self.CDF(i)-self.CDF(i-1)))
+        return er - self.price(t)*a
         
-        return -a*self.price(t) + sum([self.CDF(k) - self.CDF(k - 1) * self.f(k) for k in range(s+a+1)]) + sum([self.CDF(s+a) * self.f(s+a) for k in range(s+a+1, self.M+1)])
+        
+        
     def optimalAction(self, d):
         '''Function to determine which action corresponds to optimal policy.
         
