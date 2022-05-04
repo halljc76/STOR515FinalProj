@@ -113,7 +113,7 @@ Note that $A$ is given as follows for each steak type (all in USD) $\text{ Strip
 \\
 
 \begin{equation} \label{2}
-Pr(t) = A + (1 + \frac{0.0125}{\sqrt{t} - 0.5}) 
+Pr(t) = A + (1 + \frac{0.05}{\sqrt{t} - 0.5}) 
 \end{equation}
 
 The evaluation behind this projection is that prices will decrease in the latter half of 2022, though remain higher than $A$. 
@@ -154,17 +154,17 @@ S = \{0, 1, ..., s_{max} \} \\
 A_{s} = \{0, 1, ..., s_{max} - s \} \forall s \in S \\
 \end{cases}$$
 
-Additionally, the reward and transition probability functions are qualitatively equivalent, and so they are given universally by Equations 3 and 4. Note $C$ is a stand-in for the CDF of a normal distribution, using the normal distribution parameters presented in Section 2.3.
+Additionally, the reward and transition probability functions are qualitatively equivalent, and so they are given universally by Equations 3 and 4. Note $\text{CDF}$ represents the CDF of a normal distribution, using the normal distribution parameters presented in Section 2.3.
 
 \small
 \begin{equation} \label{3}
-r_{t}(s,a,j) = \begin{cases} S_{p} *(s + a - j) * F(s + a - j) - a*Pr(t) & j \in [0,s+a] \\ S_{p} *(s + a) * (1 -  C(s + a)) - a*Pr(t) & \text{else} \end{cases} 
+r_{t}(s,a,j) = \begin{cases} S_{p} *(s + a - j) * F(s + a - j) - a*Pr(t) & j \in [0,s+a] \\ S_{p} *(s + a) * (1 -  \text{CDF}(s + a)) - a*Pr(t) & \text{else} \end{cases} 
 \end{equation}
 
 \normalsize
 
 \begin{equation} \label{4}
-p_{t}(s,a,j) = \begin{cases} 0 & j > s + a \\ F(s + a - j) & 0 < j \leq s + a \\ 1 - F(s + a) & j = 0 \end{cases}
+p_{t}(s,a,j) = \begin{cases} 0 & j > s + a \\ F(s + a - j) & 0 < j \leq s + a \\ 1 - \text{CDF}(s + a) & j = 0 \end{cases}
 \end{equation}
 
 \section{Results}

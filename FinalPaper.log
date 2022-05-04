@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2022.4.23)  2 MAY 2022 00:48
+This is pdfTeX, Version 3.141592653-2.6-1.40.23 (MiKTeX 21.10) (preloaded format=pdflatex 2022.4.23)  4 MAY 2022 08:59
 entering extended mode
 **./FinalPaper.tex
 (FinalPaper.tex
@@ -388,7 +388,7 @@ LaTeX Font Info:    Font shape `OT1/cmtt/bx/n' in size <10> not available
 [8] [9] [10] [11] (FinalPaper.aux) ) 
 Here is how much of TeX's memory you used:
  7152 strings out of 478604
- 107077 string characters out of 2848674
+ 107045 string characters out of 2848674
  955583 words of memory out of 3000000
  25279 multiletter control sequences out of 15000+600000
  480521 words of font info for 72 fonts, out of 8000000 for 9000
@@ -410,7 +410,7 @@ TeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Carter/Program Files/Mi
 KTeX/fonts/type1/public/amsfonts/cm/cmti10.pfb><C:/Users/Carter/Program Files/M
 iKTeX/fonts/type1/public/amsfonts/cm/cmti12.pfb><C:/Users/Carter/Program Files/
 MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on FinalPaper.pdf (11 pages, 410943 bytes).
+Output written on FinalPaper.pdf (11 pages, 410585 bytes).
 PDF statistics:
  122 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
