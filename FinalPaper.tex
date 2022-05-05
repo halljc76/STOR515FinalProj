@@ -113,7 +113,7 @@ Note that $A$ is given as follows for each steak type (all in USD) $\text{ Strip
 \\
 
 \begin{equation} \label{2}
-Pr(t) = A + (1 + \frac{0.05}{\sqrt{t} - 0.5}) 
+Pr(t) = A * (1 + \frac{0.05}{\sqrt{t} - 0.5}) 
 \end{equation}
 
 The evaluation behind this projection is that prices will decrease in the latter half of 2022, though remain higher than $A$. 
@@ -228,9 +228,9 @@ d_{t} = \Sigma_{t} - s & s < \sigma_{t} \\ 0 & \text{otherwise}
 for the first epoch, at time $t = 1$, the following values for $\Sigma_{t}, \sigma_{t}$ are given for each steak type:
 \\
 
-$ \bullet \text{Strip Loin}: \Sigma_{t} = \sigma_{t} = 168$ 
+$ \bullet \text{ Strip Loin}: \Sigma_{t} = \sigma_{t} = 168$ 
 
-$ \bullet \text{Cowboy}: \Sigma_{t} = \sigma_{t} = 134$
+$ \bullet \text{ Cowboy}: \Sigma_{t} = \sigma_{t} = 134$
 
 $ \bullet \text{ Ribeye: } \Sigma_{t} = \sigma_{t} = 278  $
 
